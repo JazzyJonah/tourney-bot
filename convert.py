@@ -1,7 +1,7 @@
 import time
 
 def convert(dateTime, timezone):
-    dateTimePattern = "%m/%d/%Y %H:%M:%S"
+    dateTimePattern = "%m/%d/%y %-H:%M:%S"
     if timezone == "EST":
         timezone = -4
     if timezone == "GMT":
