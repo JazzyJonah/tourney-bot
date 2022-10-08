@@ -1,3 +1,5 @@
+import time
+
 def convert(dateTime, timezone):
     dateTimePattern = "%m/%d/%Y %H:%M:%S"
     if timezone == "EST":
