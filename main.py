@@ -33,7 +33,7 @@ async def create_tourney(
 	interaction:Interaction,
 	date_time: str=SlashOption(
 		name="date_time",
-		description="What date/time you want the tourney to start. (Format: MM/DD/YY HH:MM:SS Timezone, eg. 04/16/22 15:45:00 EST)",
+		description="Date/time (format: MM/DD/YY HH:MM:SS Timezone, eg. 04/16/22 15:45:00 EST)",
 		required=True
 	)
 ):
