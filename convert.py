@@ -6,4 +6,5 @@ def convert(dateTime, timezone):
         timezone = -4
     if timezone == "GMT":
         timezone = 0
+    dateTime = dateTime+":00"
     return str(int(time.mktime(time.strptime(dateTime, dateTimePattern)))-3600*timezone)
