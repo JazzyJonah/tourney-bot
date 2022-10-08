@@ -33,13 +33,13 @@ async def create_tourney(
 	interaction:Interaction,
 	date_time: str=SlashOption(
 		name="date_time",
-		description="Date/time (format: MM/DD/YY HH:MM:SS Timezone, eg. 04/16/22 15:45 EST)",
+		description="Date/time (format: MM/DD/YY HH:MM Timezone, eg. 04/16/22 15:45 EST)",
 		required=True
 	)
 ):
 	try:
 		vrej = convert(date_time.rsplit(" ",1)[0], date_time.split()[-1])
-		await interaction.response.send_message("<t:" + vrej + "> or <t: " + vrej + ":R>")
+		await interaction.response.send_message("<t:" + vrej + "> or <t:" + vrej + ":R>")
 	except Exception as e:
 		await interaction.response.send_message("You messed up somewhere. Try again. (Error message: " + str(e)) + ")"
 
