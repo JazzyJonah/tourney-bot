@@ -37,9 +37,10 @@ async def create_tourney(
 		required=True
 	)
 ):
-	await interaction.response.send_message(date_time.rsplit(" ",1)[0])
-	
-	# await interaction.response.send_message(convert(date_time.rsplit(" ",1)[0], date_time.split()[-1]))
+	try:
+		await interaction.response.send_message(convert(date_time.rsplit(" ",1)[0], date_time.split()[-1]))
+	except:
+		await interaction.response.send_message("You messed up somewhere. Try again.")
 
 
 
