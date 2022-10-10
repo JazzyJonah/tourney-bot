@@ -42,8 +42,9 @@ async def create_tourney(
 		await interaction.response.send_message("Tournament starts at <t:" + vrej + "> or <t:" + vrej + ":R>")
 	except Exception as e:
 		await interaction.response.send_message("You messed up somewhere. Try again. (Error message: " + str(e)) + ")"
-
-
+@create_tourney.error
+async def on_create_tourney_error(interaction: Interaction, error):
+  await interaction.response.send_message("You don't have tournament admin.")
 
 
 client.run(os.getenv("token"))
