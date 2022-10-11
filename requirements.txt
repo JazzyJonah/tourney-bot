@@ -1,2 +1,2 @@
 nextcord
-diagrams
+git+git://github.com/JazzyJonah/diagrams.git
