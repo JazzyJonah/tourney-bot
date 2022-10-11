@@ -1,2 +1,2 @@
 nextcord
-git+git remote set-url origin https://github.com/joanskenderi/Course-Goals-App.git
+git+git@github.com:JazzyJonah/diagrams.git
