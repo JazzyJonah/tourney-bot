@@ -22,7 +22,7 @@ async def help(interaction: Interaction):
 		`/info` - What you're seeing right now!
 		`/trailer` - Shows the official trailer for the B2T server
 		`/create_tournament` - Creates a tournament (mod only) (WIP)\n
-		||Created by JazzyJonah (<@627917067332485120>); Source code: https://github.com/JazzyJonah/tourney-bot||""")
+		||Created by JazzyJonah (<@627917067332485120>) - Source code: https://github.com/JazzyJonah/tourney-bot||""")
 
 @client.slash_command(name="trailer", description="The official trailer for B2T", guild_ids=testingServersIDs)
 async def trailer(interaction: Interaction):
