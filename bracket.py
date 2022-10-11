@@ -8,7 +8,7 @@ def bracket():
     p4 = "d"
     players = ["a", "b", "c", "d"]
 
-    with Diagram("bracket"):
+    with Diagram("bracket", show=False):
         with Cluster("Round 1"):
             g1p1 = PubSub(players[0])
             g1p2 = PubSub(players[1])

@@ -6,7 +6,7 @@ import nextcord
 import time
 
 from convert import convert
-from bracketcreator import createbracket
+from bracket import bracket
 
 client = commands.Bot(command_prefix = "m!", intents = nextcord.Intents.all())
 testingServersIDs = [627917374347149334, 921447683154145331] #JazzyJonah, B2T
@@ -43,9 +43,14 @@ async def create_tourney(
 		await interaction.response.send_message("Tournament starts at <t:" + vrej + "> or <t:" + vrej + ":R>")
 	except Exception as e:
 		await interaction.response.send_message("You messed up somewhere. Try again. (Error message: " + str(e)) + ")"
+
+	bracket()
+	await interaction.followup.send_message(file=nextcord.File("bracket.png"))
+	os.remove("bracket.png")
 @create_tourney.error
 async def on_create_tourney_error(interaction: Interaction, error):
   await interaction.response.send_message("You don't have tournament admin.")
+
 
 
 client.run(os.getenv("token"))
