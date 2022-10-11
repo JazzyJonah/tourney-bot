@@ -1,2 +1,2 @@
 nextcord
-git+git@github.com:JazzyJonah/diagrams.git
+git@github.com:JazzyJonah/diagrams.git
