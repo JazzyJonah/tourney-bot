@@ -14,6 +14,7 @@ testingServersIDs = [627917374347149334, 921447683154145331] #JazzyJonah, B2T
 async def on_ready():
 	print("hello")
 	await client.sync_all_application_commands()
+	await client.change_presence(activity = nextcord.Game(name="Battles 2"))
 
 @client.slash_command(name="info", description="View info about the bot", guild_ids=testingServersIDs)
 async def help(interaction: Interaction):
