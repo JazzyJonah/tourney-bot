@@ -6,7 +6,7 @@ import nextcord
 import time
 
 from convert import convert
-from bracket import bracket
+# from bracket import bracket
 
 client = commands.Bot(command_prefix = "m!", intents = nextcord.Intents.all())
 testingServersIDs = [627917374347149334, 921447683154145331] #JazzyJonah, B2T
