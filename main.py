@@ -6,7 +6,7 @@ import nextcord
 import time
 
 from convert import convert
-# from bracket import bracket
+from createbracket import createbracket
 
 client = commands.Bot(command_prefix = "m!", intents = nextcord.Intents.all())
 testingServersIDs = [627917374347149334, 921447683154145331] #JazzyJonah, B2T
@@ -45,12 +45,17 @@ async def create_tourney(
 	except Exception as e:
 		await interaction.response.send_message("You messed up somewhere. Try again. (Error message: " + str(e)) + ")"
 
-	bracket()
-	await interaction.followup.send_message(file=nextcord.File("bracket.png"))
 	os.remove("bracket.png")
 @create_tourney.error
 async def on_create_tourney_error(interaction: Interaction, error):
   await interaction.response.send_message("You don't have tournament admin.")
+
+
+@client.slash_command(name="send_bracket", description="Sends a bracket of some cool players", guild_ids=testingServersIDs)
+async def send_bracket(interaction:Interaction):
+	createbracket("Ninjayas", "https://cdn.discordapp.com/avatars/617541280154517641/b38841e95f8cdc0fb8b0374311b7e3e0.png", "JazzyJonah", "https://cdn.discordapp.com/avatars/627917067332485120/195cb543f9006e9024401fe3d6a871cc.png", "B2T", "https://cdn.discordapp.com/avatars/900469656844914729/8e7fe6eebdaf22ff691e477f79fd6ad5.png", "SSAMBO", "https://cdn.discordapp.com/avatars/920358051893104671/b512e4cc93b81134716892b9e08afe5f.png")
+	await interaction.response.send_message(file=nextcord.File("bracket.png"))
+	os.remove("bracket.png")
 
 
 
