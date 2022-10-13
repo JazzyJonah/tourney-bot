@@ -26,7 +26,8 @@ def createbracket(p1, p1av, p2, p2av, p3, p3av, p4, p4av):
             Blank("")
             g2p2 = Custom(players[1][0], getimage(players[1][1]))
         with Cluster("Winner"):
-            winner = Custom(players[1][0], getimage(players[1][1]))
+            players = [choice(players)]
+            winner = Custom(players[0][0], getimage(players[0][1]))
         [g1p1, g1p2] >> g2p1 >> winner
         [g1p3, g1p4] >> g2p2 >> winner
     i=0
