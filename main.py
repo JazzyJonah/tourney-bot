@@ -8,7 +8,7 @@ import time
 from convert import convert
 from createbracket import createbracket
 try:
-	from token import token
+	from tokenSucks import tokenSucks
 except:
 	pass
 
@@ -67,6 +67,6 @@ try:
 except:
 	pass
 try:
-	client.run(token())
+	client.run(tokenSucks())
 except:
 	pass
