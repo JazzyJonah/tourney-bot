@@ -62,11 +62,7 @@ async def send_bracket(interaction:Interaction):
 	os.remove("bracket.png")
 
 
-try:
+if os.getenv("token")!= None:
 	client.run(os.getenv("token"))
-except:
-	pass
-try:
+else:
 	client.run(tokenSucks())
-except:
-	pass
