@@ -7,6 +7,10 @@ import time
 
 from convert import convert
 from createbracket import createbracket
+try:
+	from token import token
+except:
+	pass
 
 client = commands.Bot(command_prefix = "m!", intents = nextcord.Intents.all())
 testingServersIDs = [627917374347149334, 921447683154145331] #JazzyJonah, B2T
@@ -58,5 +62,11 @@ async def send_bracket(interaction:Interaction):
 	os.remove("bracket.png")
 
 
-
-client.run(os.getenv("token"))
+try:
+	client.run(os.getenv("token"))
+except:
+	pass
+try:
+	client.run(token())
+except:
+	pass
