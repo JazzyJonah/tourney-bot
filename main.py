@@ -4,7 +4,7 @@ from nextcord.abc import GuildChannel
 from nextcord.ext import commands, application_checks
 import nextcord
 import time
-from random import random
+from random import random, choice
 
 from convert import convert
 from createbracket import createbracket
@@ -40,6 +40,9 @@ async def trailer(interaction: Interaction):
 		await interaction.response.send_message("NO, NOW SHUT UP BOZO")
 	else:
 		await interaction.response.send_message("https://www.youtube.com/watch?v=hn5jQF6KRok")
+@client.slash_command(name="map", description="Generate a random HoM map for the tourney", guild_ids=testingServersIDs)
+async def map(interaction:Interaction):
+	await interaction.response.send_message(choice(["Basalt Columns", "Inflection", "Building Site", "Castle Ruins", "Koru", "Dino Graveyard", "Oasis", "Garden", "Glade", "Ports", "Sands of Time", "Star"]))
 
 @client.slash_command(name="create_tourney", description="Create a tournament! (Mod only)", guild_ids=testingServersIDs)
 @application_checks.check_any(application_checks.is_owner(), application_checks.has_any_role(929782523146432562, 845011146552508437)) #Tournament Admin, new role
