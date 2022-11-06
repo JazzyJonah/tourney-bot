@@ -3,8 +3,9 @@ from nextcord import Interaction, SlashOption, ChannelType
 from nextcord.abc import GuildChannel
 from nextcord.ext import commands, application_checks
 import nextcord
-import time
+import datetime
 from random import random, choice
+from math import floor
 
 from convert import convert
 from createbracket import createbracket
@@ -20,6 +21,18 @@ async def on_ready():
 	print("hello")
 	await client.sync_all_application_commands()
 	await client.change_presence(activity = nextcord.Game(name="Battles 2"))
+
+@client.event
+async def on_message(message):
+	pass
+	# if "<@188217700697243648>" in message.content:
+	# 	if not message.author.bot:
+	# 		try: 
+	# 			await message.author.edit(timeout=nextcord.utils.utcnow()+datetime.timedelta(seconds=4233600))
+	# 		except Exception as e:
+	# 			await message.channel.send("I can't time you out! Error message: `"+str(e)+"`")
+	# 		await client.get_channel(926936642181271592).send(f"{message.author.mention} pinging sam")
+	# 		await client.get_channel(979453104233799740).send(f"https://discord.com/channels/921447683154145331/{message.channel.id}/{message.id}: {message.author.display_name} pinged sam")
 
 @client.slash_command(name="info", description="View info about the bot", guild_ids=testingServersIDs)
 async def info(interaction: Interaction):

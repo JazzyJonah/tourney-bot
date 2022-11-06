@@ -1,37 +1,155 @@
 from diagrams import Cluster, Diagram
+from diagrams.gcp.analytics import BigQuery, DataFlow, PubSub
 from diagrams.generic.blank import Blank
 from diagrams.custom import Custom
-from imgFromURL import getimage
-from random import choice
+import random
+from random import shuffle
 import os
+from math import floor, log, ceil
+import requests
+import shutil
 from os.path import exists
+from player import Player, getimage
 
 
-def createbracket(p1, p1av, p2, p2av, p3, p3av, p4, p4av):
-    p1 = (p1, p1av)
-    p2 = (p2, p2av)
-    p3 = (p3, p3av)
-    p4 = (p4, p4av)
-    players = [p1, p2, p3, p4]
 
-    with Diagram("bracket", show=False):
-        with Cluster("Round 1"):
-            g1p1 = Custom(players[0][0], getimage(players[0][1]))
-            g1p2 = Custom(players[1][0], getimage(players[1][1]))
-            g1p3 = Custom(players[2][0], getimage(players[2][1]))
-            g1p4 = Custom(players[3][0], getimage(players[3][1]))
-        with Cluster("Finals"):
-            players = [choice(players[0:2]), choice(players[2:4])]
-            g2p1 = Custom(players[0][0], getimage(players[0][1]))
-            Blank("")
-            g2p2 = Custom(players[1][0], getimage(players[1][1]))
-        with Cluster("Winner"):
-            players = [choice(players)]
-            winner = Custom(players[0][0], getimage(players[0][1]))
-        [g1p1, g1p2] >> g2p1 >> winner
-        [g1p3, g1p4] >> g2p2 >> winner
+def subtract(lst1, lst2):
+    return [x for x in lst2 if x not in lst1]
+
+# def find_instance(list, value, index):
+#     return [z for z, n in enumerate(list) if n == value][index]
+
+def len_group(numPlayers, group):
+    return 2**ceil(log(numPlayers, 2))-1-2*(group-1)
+
+
+
+def createbracket(*players):
+    question="https://www.citypng.com/public/uploads/small/11664478536ju7umc1lgtvjg5pkqxzszbnnsiidksg2azldiuudv5lm2m4qjror6fwyabkot9ludlybku4g1pptb3qxm1sosuj55vtdldgrtyqu.png"
+    players = list(players)
+    for i in range(len(players)):
+        players[i] = Player(players[i][0], players[i][1], players[i][2])
+    numPlayers = len(list(players))
+    n = floor(log(numPlayers, 2))
+    k = numPlayers - 2**n
+    group1 = []
+    for i in range(2*k):
+        group1.append(players[i])
+    group2 = subtract(group1, players)
+
+    while group2.count(False) < k:
+        group2.insert(group2.count(False)*2+1, False)
+
+    with Diagram("bracket"):
+        with Cluster("group 2"):
+            actualGroup2=[]
+            g2len=0
+            l=0
+            for i in range(len(group2)):
+                if group2[i]:
+                    actualGroup2.append(group2[i].make_box())
+                    group2[i].win()
+                    g2len+=1
+                else:
+                    winner=random.choice([group1[2*l], group1[2*l+1]])
+                    group2[i]=winner
+                    actualGroup2.append(winner.make_box())
+                    # if group1[2*l].get_wins()>group1[2*l+1].get_wins():
+                    #     group2[i] = group1[2*l]#group2.append(group1[2*l])
+                    #     actualGroup2.append(group1[2*l].make_box())
+                    # elif group1[2*l].get_wins()<group1[2*l+1].get_wins():
+                    #     group2[i] = group1[2*l+1]#group2.append(group1[2*l+1])
+                    #     actualGroup2.append(group1[2*l+1].make_box())
+                    # else:
+                    #     actualGroup2.append(Custom("", getimage(question)))
+                    l+=1
+                if i<(len(group2)-1):
+                    Blank("")
+
+        actualGroup1=[]
+        with Cluster("group 1"):
+            l=g2len
+            for i in range(int(len(group1)/2)):
+                if l!=0:
+                    for j in range(2):
+                        Blank("")
+                    l-=1
+                actualGroup1.append(group1[2*i].make_box())
+                actualGroup1.append(group1[2*i+1].make_box())
+        for i in range(k):
+            [actualGroup1[2*i], actualGroup1[2*i+1]] >> actualGroup2[i+g2len]
+
+
+        #PAST ROUND 2
+        newGroups=int(log(len(group2), 2))
+        futureGroups=[]
+        actualFutureGroups=[]
+        for i in range(newGroups):
+            with Cluster("group "+str(3+i)):
+                futureGroups.append([])
+                actualFutureGroups.append([])
+                currentPlayers=int(len(group2)/(2**(i+1)))
+                numBlanks = len_group(numPlayers, 2+i)-currentPlayers
+
+
+                if i==0:
+                    for j in range(int(len(actualGroup2)/2)):
+                        try:
+                            winner=random.choice([group2[2*j], group2[2*j+1]])
+                            futureGroups[i].append(winner)
+                            actualFutureGroups[i].append(winner.make_box())
+                            # if group2[2*j].get_wins() > group2[2*j+1].get_wins():
+                            #     futureGroups[i].append(group2[2*j])
+                            #     actualFutureGroups[i].append(group2[2*j].make_box())
+                            
+                            # elif group2[2*j].get_wins() < group2[2*j+1].get_wins():
+                            #     futureGroups[i].append(group2[2*j+1])
+                            #     actualFutureGroups[i].append(group2[2*j+1].make_box())
+                            
+                            # elif group2[2*j].get_wins() == group2[2*j+1].get_wins():
+                            #     futureGroups[i].append(False)
+                            #     actualFutureGroups[i].append(Custom("", getimage(question)))
+
+                        except Exception as e:
+                            futureGroups[i].append(False)
+                            actualFutureGroups[i].append(Custom("", getimage(question)))
+
+
+                        if j!=int(len(actualGroup2)/2-1):
+                            for k in range(int(numBlanks/(currentPlayers-1))):
+                                Blank("")
+                else:
+                    for j in range(int(len(actualFutureGroups[i-1])/2)):
+                        try:
+                            if futureGroups[i-1][2*j].get_wins() > futureGroups[i-1][2*j+1].get_wins():
+                                futureGroups[i].append(futureGroups[i-1][2*j])
+                                actualFutureGroups[i].append(futureGroups[i-1][2*j].make_box())
+
+                            elif futureGroups[i-1][2*j].get_wins() < futureGroups[i-1][2*j+1].get_wins():
+                                futureGroups[i].append(futureGroups[i-1][2*j+1])
+                                actualFutureGroups[i].append(futureGroups[i-1][2*j+1].make_box())
+
+                            elif futureGroups[i-1][2*j].get_wins() == futureGroups[i-1][2*j+1].get_wins():
+                                futureGroups[i].append(False)
+                                actualFutureGroups[i].append(Custom)
+                        except:
+                            futureGroups[i].append(False)
+                            actualFutureGroups[i].append(Custom("", getimage(question)))
+
+            if i==0:
+                for j in range(int(len(actualGroup2)/2)):
+                    [actualGroup2[2*j], actualGroup2[2*j+1]] >> actualFutureGroups[0][j]
+            else:
+                for j in range(int(len(futureGroups[i-1])/2)):
+                    [actualFutureGroups[i-1][2*j], actualFutureGroups[i-1][2*j+1]] >> actualFutureGroups[i][j]
+
+
+
+
+
+
+
     i=0
-    while exists("temp.png"+str(i)):
-        os.remove("temp.png"+str(i))
+    while exists("temp"+str(i)+".png"):
+        os.remove("temp"+str(i)+".png")
         i+=1
-
