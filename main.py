@@ -4,7 +4,7 @@ from nextcord.abc import GuildChannel
 from nextcord.ext import commands, application_checks
 import nextcord
 import datetime
-from random import random, choice
+from random import random, choice, shuffle
 from math import floor
 
 from convert import convert
@@ -57,6 +57,8 @@ async def trailer(interaction: Interaction):
 async def map(interaction:Interaction):
 	await interaction.response.send_message(choice(["Basalt Columns", "Inflection", "Building Site", "Castle Ruins", "Koru", "Dino Graveyard", "Oasis", "Garden", "Glade", "Ports", "Sands of Time", "Star"]))
 
+
+
 @client.slash_command(name="create_tourney", description="Create a tournament! (Mod only)", guild_ids=testingServersIDs)
 @application_checks.check_any(application_checks.is_owner(), application_checks.has_any_role(929782523146432562, 845011146552508437)) #Tournament Admin, new role
 async def create_tourney(
@@ -82,14 +84,148 @@ async def on_create_tourney_error(interaction: Interaction, error):
   await interaction.response.send_message("You don't have tournament admin.")
 
 
+# class Winner(nextcord.ui.View):
+# 	def __init__(self, player0="", player1=""):
+# 		super().__init__()
+# 		self.player0=player0
+# 		self.player1=player1
+# 		self.value=None
+
+# 	@nextcord.ui.button(label=self.player0, style=nextcord.ButtonStyle.grey)
+# 	async def player0(self, button:nextcord.ui.button, interaction:Interaction):
+# 		self.value=self.player0
+# 		self.stop()
+
+# 	@nextcord.ui.button(label=self.player1, style=nextcord.ButtonStyle.grey)
+# 	async def player0(self, button:nextcord.ui.button, interaction:Interaction):
+# 		self.value=self.player1
+# 		self.stop()
+
 @client.slash_command(name="bracket", description="Sends a bracket of some cool players", guild_ids=testingServersIDs)
-async def bracket(interaction:Interaction):
+async def bracket(
+	interaction:Interaction,
+	player1: nextcord.Member=SlashOption(
+		name="player1",
+		description="First player",
+		required=True
+	),
+	player2: nextcord.Member=SlashOption(
+		name="player2",
+		description="Second player",
+		required=True
+	),
+	player3: nextcord.Member=SlashOption(
+		name="player3",
+		description="Third player",
+		required=False
+	),
+	player4: nextcord.Member=SlashOption(
+		name="player4",
+		description="Fourth player",
+		required=False
+	),
+	player5: nextcord.Member=SlashOption(
+		name="player5",
+		description="Fifth player",
+		required=False
+	),
+	player6: nextcord.Member=SlashOption(
+		name="player6",
+		description="Sixth player",
+		required=False
+	),
+	player7: nextcord.Member=SlashOption(
+		name="player7",
+		description="Seventh player",
+		required=False
+	),
+	player8: nextcord.Member=SlashOption(
+		name="player8",
+		description="Eigth player",
+		required=False
+	),
+	player9: nextcord.Member=SlashOption(
+		name="player9",
+		description="Ninth player",
+		required=False
+	),
+	player10: nextcord.Member=SlashOption(
+		name="player10",
+		description="Tenth player",
+		required=False
+	),
+	player11: nextcord.Member=SlashOption(
+		name="player11",
+		description="Eleventh player",
+		required=False
+	),
+	player12: nextcord.Member=SlashOption(
+		name="player12",
+		description="Twefth player",
+		required=False
+	),
+	player13: nextcord.Member=SlashOption(
+		name="player13",
+		description="Thirteenth player",
+		required=False
+	),
+	player14: nextcord.Member=SlashOption(
+		name="player14",
+		description="Fourteenth player",
+		required=False
+	),
+	player15: nextcord.Member=SlashOption(
+		name="player15",
+		description="Fifteenth player",
+		required=False
+	),
+	player16: nextcord.Member=SlashOption(
+		name="player16",
+		description="Sixteenth player",
+		required=False
+	),
+
+):
 	if random() < 0.01:
 		await interaction.response.send_message("NO, NOW SHUT UP BOZO")
 	else:
-		createbracket("Ninjayas", "https://cdn.discordapp.com/avatars/617541280154517641/b38841e95f8cdc0fb8b0374311b7e3e0.png", "JazzyJonah", "https://cdn.discordapp.com/avatars/627917067332485120/195cb543f9006e9024401fe3d6a871cc.png", "B2T", "https://cdn.discordapp.com/avatars/900469656844914729/8e7fe6eebdaf22ff691e477f79fd6ad5.png", "SSAMBO", "https://cdn.discordapp.com/avatars/920358051893104671/b512e4cc93b81134716892b9e08afe5f.png")
+		players=[]
+		if True: #for collapsing - appends a bunch of stuff to players
+			players.append((player1.name, player1.display_avatar, 0))
+			players.append((player2.name, player2.display_avatar, 0))
+			if player3:
+				players.append((player3.name, player3.display_avatar, 0))
+				if player4:
+					players.append((player4.name, player4.display_avatar, 0))
+					if player5:
+						players.append((player5.name, player5.display_avatar, 0))
+						if player6:
+							players.append((player6.name, player6.display_avatar, 0))
+							if player7:
+								players.append((player7.name, player7.display_avatar, 0))
+								if player8:
+									players.append((player8.name, player8.display_avatar, 0))
+									if player9:
+										players.append((player9.name, player9.display_avatar, 0))
+										if player10:
+											players.append((player10.name, player10.display_avatar, 0))
+											if player11:
+												players.append((player11.name, player11.display_avatar, 0))
+												if player12:
+													players.append((player12.name, player12.display_avatar, 0))
+													if player13:
+														players.append((player13.name, player13.display_avatar, 0))
+														if player14:
+															players.append((player14.name, player14.display_avatar, 0))
+															if player15:
+																players.append((player15.name, player15.display_avatar, 0))
+																if player16:
+																	players.append((player16.name, player16.display_avatar, 0))
+
 		await interaction.response.defer()
-		await interaction.followup.send(file=nextcord.File("bracket.png"))
+		shuffle(players)
+		createbracket(players)
+		await interaction.followup.send(file=nextcord.File("bracket.png"))#, view=Winner("Heli ice"))
 		os.remove("bracket.png")
 
 
