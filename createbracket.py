@@ -254,13 +254,13 @@ def createbracket(players):
         os.remove("temp"+str(i)+".png")
         i+=1
 
-createbracket(
-    [("black square1", "https://lh3.googleusercontent.com/9tdJGxGMuvgof_Jh0SFU7r423bKuMIP9wSnOu-sy5RffCwlhBYvugvXfUz-xhpsCfg=h36", 0),
-    ("black square2", "https://lh3.googleusercontent.com/9tdJGxGMuvgof_Jh0SFU7r423bKuMIP9wSnOu-sy5RffCwlhBYvugvXfUz-xhpsCfg=h36", 0),
-    ("black square3", "https://lh3.googleusercontent.com/9tdJGxGMuvgof_Jh0SFU7r423bKuMIP9wSnOu-sy5RffCwlhBYvugvXfUz-xhpsCfg=h36", 0),
-    ("black square4", "https://lh3.googleusercontent.com/9tdJGxGMuvgof_Jh0SFU7r423bKuMIP9wSnOu-sy5RffCwlhBYvugvXfUz-xhpsCfg=h36", 0),
-    ("black square5", "https://lh3.googleusercontent.com/9tdJGxGMuvgof_Jh0SFU7r423bKuMIP9wSnOu-sy5RffCwlhBYvugvXfUz-xhpsCfg=h36", 0),
-    ("black square5", "https://lh3.googleusercontent.com/9tdJGxGMuvgof_Jh0SFU7r423bKuMIP9wSnOu-sy5RffCwlhBYvugvXfUz-xhpsCfg=h36", 0),
-    ("black square6", "https://lh3.googleusercontent.com/9tdJGxGMuvgof_Jh0SFU7r423bKuMIP9wSnOu-sy5RffCwlhBYvugvXfUz-xhpsCfg=h36", 0),
-    ("black square7", "https://lh3.googleusercontent.com/9tdJGxGMuvgof_Jh0SFU7r423bKuMIP9wSnOu-sy5RffCwlhBYvugvXfUz-xhpsCfg=h36", 0)]
-)
+# createbracket(
+#     [("black square1", "https://lh3.googleusercontent.com/9tdJGxGMuvgof_Jh0SFU7r423bKuMIP9wSnOu-sy5RffCwlhBYvugvXfUz-xhpsCfg=h36", 0),
+#     ("black square2", "https://lh3.googleusercontent.com/9tdJGxGMuvgof_Jh0SFU7r423bKuMIP9wSnOu-sy5RffCwlhBYvugvXfUz-xhpsCfg=h36", 0),
+#     ("black square3", "https://lh3.googleusercontent.com/9tdJGxGMuvgof_Jh0SFU7r423bKuMIP9wSnOu-sy5RffCwlhBYvugvXfUz-xhpsCfg=h36", 0),
+#     ("black square4", "https://lh3.googleusercontent.com/9tdJGxGMuvgof_Jh0SFU7r423bKuMIP9wSnOu-sy5RffCwlhBYvugvXfUz-xhpsCfg=h36", 0),
+#     ("black square5", "https://lh3.googleusercontent.com/9tdJGxGMuvgof_Jh0SFU7r423bKuMIP9wSnOu-sy5RffCwlhBYvugvXfUz-xhpsCfg=h36", 0),
+#     ("black square5", "https://lh3.googleusercontent.com/9tdJGxGMuvgof_Jh0SFU7r423bKuMIP9wSnOu-sy5RffCwlhBYvugvXfUz-xhpsCfg=h36", 0),
+#     ("black square6", "https://lh3.googleusercontent.com/9tdJGxGMuvgof_Jh0SFU7r423bKuMIP9wSnOu-sy5RffCwlhBYvugvXfUz-xhpsCfg=h36", 0),
+#     ("black square7", "https://lh3.googleusercontent.com/9tdJGxGMuvgof_Jh0SFU7r423bKuMIP9wSnOu-sy5RffCwlhBYvugvXfUz-xhpsCfg=h36", 0)]
+# )

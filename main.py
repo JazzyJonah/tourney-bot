@@ -6,7 +6,10 @@ import nextcord
 import datetime
 from random import random, choice, shuffle
 from math import floor
+import requests
+import json
 
+from getPlayerMap import getPlayerMap
 from convert import convert
 from createbracket import createbracket
 try:
@@ -20,7 +23,7 @@ testingServersIDs = [627917374347149334, 921447683154145331] #JazzyJonah, B2T
 async def on_ready():
 	print("hello")
 	await client.sync_all_application_commands()
-	await client.change_presence(activity = nextcord.Game(name="Battles 2"))
+	await client.change_presence(activity = nextcord.Game(name="Bloons TD Battles 2"))
 
 @client.event
 async def on_message(message):
@@ -227,6 +230,21 @@ async def bracket(
 		createbracket(players)
 		await interaction.followup.send(file=nextcord.File("bracket.png"))#, view=Winner("Heli ice"))
 		os.remove("bracket.png")
+
+# @client.slash_command(name="leaderboard", description="Sends the t10 current players in Battles 2!", guild_ids=testingServersIDs)
+# async def leaderboard(interaction:Interaction):
+# 	import requests
+# 	import json
+# 	r=requests.get("https://fast-static-api.nkstatic.com/storage/static/appdocs/17/leaderboards/lb:hom_rank:season_8:public.json", headers={"user-agent":"battles2-1.7.2"}, data={"key":"value"})
+# 	r.json()
+# 	data = json.loads(json.loads(r.text)['data'])
+# 	message=""
+# 	for i in range(10):
+# 		try:
+# 			message+=f'#{i+1}: {getPlayerMap()[data["scores"]["equal"][i]["userID"]]}\n'
+# 		except:
+# 			message+=f'#{i+1}: unknown\n'
+# 	await interaction.response.send_message("```"+message+"```")
 
 
 if os.getenv("token")!= None:
