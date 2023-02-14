@@ -1,3 +1,4 @@
+import threading
 import os
 from nextcord import Interaction, SlashOption, ChannelType
 from nextcord.abc import GuildChannel
@@ -11,14 +12,14 @@ import json
 
 from getPlayerMap import getPlayerMap
 from convert import convert
-from createbracket import createbracket
+from betterBracket import createbracket, Player
 try:
-	from tokenSucks import tokenSucks
+	from tokenSucks import tokenSucks, imgurSucks
 except:
 	pass
 
 client = commands.Bot(command_prefix = "m!", intents = nextcord.Intents.all())
-testingServersIDs = [627917374347149334, 921447683154145331] #JazzyJonah, B2T
+testingServersIDs = [627917374347149334, 921447683154145331, 922420426175557632] #JazzyJonah, B2T, antarctica
 @client.event
 async def on_ready():
 	print("hello")
@@ -192,43 +193,48 @@ async def bracket(
 	if random() < 0.01:
 		await interaction.response.send_message("NO, NOW SHUT UP BOZO")
 	else:
+		await interaction.response.defer()
 		players=[]
 		if True: #for collapsing - appends a bunch of stuff to players
-			players.append((player1.name, player1.display_avatar, 0))
-			players.append((player2.name, player2.display_avatar, 0))
+			players.append(Player(player1.name, player1.display_avatar, 0))
+			players.append(Player(player2.name, player2.display_avatar, 0))
 			if player3:
-				players.append((player3.name, player3.display_avatar, 0))
+				players.append(Player(player3.name, player3.display_avatar, 0))
 				if player4:
-					players.append((player4.name, player4.display_avatar, 0))
+					players.append(Player(player4.name, player4.display_avatar, 0))
 					if player5:
-						players.append((player5.name, player5.display_avatar, 0))
+						players.append(Player(player5.name, player5.display_avatar, 0))
 						if player6:
-							players.append((player6.name, player6.display_avatar, 0))
+							players.append(Player(player6.name, player6.display_avatar, 0))
 							if player7:
-								players.append((player7.name, player7.display_avatar, 0))
+								players.append(Player(player7.name, player7.display_avatar, 0))
 								if player8:
-									players.append((player8.name, player8.display_avatar, 0))
+									players.append(Player(player8.name, player8.display_avatar, 0))
 									if player9:
-										players.append((player9.name, player9.display_avatar, 0))
+										players.append(Player(player9.name, player9.display_avatar, 0))
 										if player10:
-											players.append((player10.name, player10.display_avatar, 0))
+											players.append(Player(player10.name, player10.display_avatar, 0))
 											if player11:
-												players.append((player11.name, player11.display_avatar, 0))
+												players.append(Player(player11.name, player11.display_avatar, 0))
 												if player12:
-													players.append((player12.name, player12.display_avatar, 0))
+													players.append(Player(player12.name, player12.display_avatar, 0))
 													if player13:
-														players.append((player13.name, player13.display_avatar, 0))
+														players.append(Player(player13.name, player13.display_avatar, 0))
 														if player14:
-															players.append((player14.name, player14.display_avatar, 0))
+															players.append(Player(player14.name, player14.display_avatar, 0))
 															if player15:
-																players.append((player15.name, player15.display_avatar, 0))
+																players.append(Player(player15.name, player15.display_avatar, 0))
 																if player16:
-																	players.append((player16.name, player16.display_avatar, 0))
+																	players.append(Player(player16.name, player16.display_avatar, 0))
 
-		await interaction.response.defer()
+		
 		shuffle(players)
-		createbracket(players)
-		await interaction.followup.send(file=nextcord.File("bracket.png"))#, view=Winner("Heli ice"))
+		result=[None, None] #this is just a length 2 list because threading is dumb - first item is url of imgbb thing, second item is matches for next round
+		backgroundBracket = threading.Thread(target = createbracket, name = '', args = (players, result)) # this is so it doesn't block out nextcord
+		backgroundBracket.start()
+		while backgroundBracket.is_alive(): # waits until program is finished while not blocking anything
+			pass
+		await interaction.followup.send(result[0])#, view=Winner("Heli ice"))
 		os.remove("bracket.png")
 
 # @client.slash_command(name="leaderboard", description="Sends the t10 current players in Battles 2!", guild_ids=testingServersIDs)
