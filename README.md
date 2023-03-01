@@ -16,8 +16,8 @@ def imgbbSucks():
 Past changes:
 | Version | Description |
 | ------- | ----------- |
-| *v0.1*    | Using the diagrams module - [it looked pretty bad](https://media.discordapp.net/attachments/837114010301759489/1080250025688449074/bracket.png) |
-| *v0.2*    | Transitioned to using PIL - looks a lot better with much more flexibility |
+| **v0.1**    | Using the diagrams module - [it looked pretty bad](https://media.discordapp.net/attachments/837114010301759489/1080250025688449074/bracket.png) |
+| **v0.2**    | Transitioned to using PIL - looks a lot better with much more flexibility |
 | v0.2.1  | Added a lot of misc. Battles 2 command pulling from the NinjaKiwi API |
 | v0.2.2  | Updated `README.md` to have a tutorial and changelog
 
@@ -26,11 +26,11 @@ Future changes:
 | ------- | ----------- |
 | v0.2.2  | Added better looking buttons to the `/leaderboard` command - possibly made faster |
 | v0.2.3  | Make large (16+ player) tourneys split into two |
-| *v0.3* | Small tourney creation feature, allowing someone to create a tourney and for people to register for that tourney in one channel |
+| **v0.3** | Small tourney creation feature, allowing someone to create a tourney and for people to register for that tourney in one channel |
 | v0.3.1 | Bug fixes and improvements (I know it's gonna happen) |
-| **v1.0** | Can create tournaments! From start to finish, buttons everywhere, pretty much the challonge tourney bot but better and not p2w |
-| *v1.1* | Added way to contribute funds for tourneys (tentative) |
-| **v2.0** | Fully automated - creates tournaments automatically every week, automatically using contributing funds, and (hopefully) won't need any further interaction |
+| `v1.0` | Can create tournaments! From start to finish, buttons everywhere, pretty much the challonge tourney bot but better and not p2w |
+| **v1.1** | Added way to contribute funds for tourneys (tentative) |
+| `v2.0` | Fully automated - creates tournaments automatically every week, automatically using contributing funds, and (hopefully) won't need any further interaction |
 | v2.0.1 | Bug fixes and improvements 
 
 End of forseen development
