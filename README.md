@@ -24,10 +24,12 @@ Past changes:
 Future changes:
 | Version | Description |
 | ------- | ----------- |
-| v0.2.2  | Added better looking buttons to the `/leaderboard` command - possibly made faster |
-| v0.2.3  | Make large (16+ player) tourneys split into two |
-| **v0.3** | Small tourney creation feature, allowing someone to create a tourney and for people to register for that tourney in one channel |
-| v0.3.1 | Bug fixes and improvements (I know it's gonna happen) |
+| **v0.3**  | Made bot online 24/7 (or almost that, anyways)
+| v0.3.1  | Added better looking buttons to the `/leaderboard` command - possibly made faster |
+| v0.3.2  | More NinjaKiwi API Commands |
+| v0.3.2  | Make large (16+ player) tourneys split into two |
+| **v0.4** | Small tourney creation feature, allowing someone to create a tourney and for people to register for that tourney in one channel |
+| v0.4.1 | Bug fixes and improvements (I know it's gonna happen) |
 | `v1.0` | Can create tournaments! From start to finish, buttons everywhere, pretty much the challonge tourney bot but better and not p2w |
 | **v1.1** | Added way to contribute funds for tourneys (tentative) |
 | `v2.0` | Fully automated - creates tournaments automatically every week, automatically using contributing funds, and (hopefully) won't need any further interaction |
