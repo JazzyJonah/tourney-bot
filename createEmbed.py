@@ -23,7 +23,7 @@ def createPlayerEmbed(player, rank, Season, interaction, result):
 
 	em = nextcord.Embed(title = displayName, url = player['profile']+"?pretty=true", description = f"Showing stats for #{rank+1}/{totalPlayers}: {displayName}", color = color)
 	em.set_thumbnail(avatar)
-	em.set_author(name=interaction.user.name)
+	# em.set_author(name=interaction.user.name)
 
 	em.add_field(name = 'Score', value = score, inline = False)
 	em.add_field(name = 'Wins', value = wins, inline = True)
@@ -46,7 +46,7 @@ def createLeaderboardEmbed(page, season, interaction, result):
 	interestingPlayers = allPlayers[start:start+lenPage] #damn, this solution is garage
 
 	em = nextcord.Embed(title = f"Showing players {start+1+50*(apiPage-1)}-{start+lenPage+50*(apiPage-1)}", url = endpoint+"&pretty=true", color = int("FFFF00", 16))
-	em.set_author(name=interaction.user.name)
+	# em.set_author(name=interaction.user.name)
 
 	ranks = ""
 	for i in range(1, 1+lenPage):

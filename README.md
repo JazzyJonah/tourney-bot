@@ -19,7 +19,8 @@ Past changes:
 | **v0.1**    | Using the diagrams module - [it looked pretty bad](https://media.discordapp.net/attachments/837114010301759489/1080250025688449074/bracket.png) |
 | **v0.2**    | Transitioned to using PIL - looks a lot better with much more flexibility |
 | v0.2.1  | Added a lot of misc. Battles 2 command pulling from the NinjaKiwi API |
-| v0.2.2  | Updated `README.md` to have a tutorial and changelog
+| v0.2.2  | Updated `README.md` to have a tutorial and changelog - marks beginning of well-documented era |
+| v0.2.2.1 | Updated `/info` to reflect battles 2 commands and slightly updated /user and /leaderboard to respond to the interaction at the cost of public error messages |
 
 Future changes:
 | Version | Description |
@@ -33,6 +34,6 @@ Future changes:
 | `v1.0` | Can create tournaments! From start to finish, buttons everywhere, pretty much the challonge tourney bot but better and not p2w |
 | **v1.1** | Added way to contribute funds for tourneys (tentative) |
 | `v2.0` | Fully automated - creates tournaments automatically every week, automatically using contributing funds, and (hopefully) won't need any further interaction |
-| v2.0.1 | Bug fixes and improvements 
+| v2.0.1 | Bug fixes and improvements |
 
 End of forseen development

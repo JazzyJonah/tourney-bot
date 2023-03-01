@@ -57,7 +57,9 @@ async def info(interaction: Interaction):
             `/info` - What you're seeing right now!
             `/trailer` - Shows the official trailer for the B2T server
             `/create_tournament` - Creates a tournament (mod only) (WIP)
-            `/bracket` - Sends a bracket of some cool players (WIP)\n
+            `/bracket` - Sends a bracket of some cool players (WIP)
+            `/leaderboard` - shows the current Battles 2 leaderboard
+            `/user` - Shows information about a user, either by leaderboard position or by username\n
             ||Created by JazzyJonah - Source code: https://github.com/JazzyJonah/tourney-bot||""")
 
 
@@ -277,7 +279,7 @@ async def leaderboard_position(
             name="season", description="The season that you want to look at (default 10)", required=False)
 ):
     LeaderboardPosition -= 1
-    await interaction.response.defer(ephemeral=True)
+    await interaction.response.defer()
     try:
         if not Season:
             Season = 10
@@ -297,8 +299,7 @@ async def leaderboard_position(
             pass
         em = result[0]
 
-        await interaction.channel.send(embed=em)
-        await interaction.delete_original_message()
+        await interaction.followup.send(embed=em)
     except Exception as e:
         print(e)
         await interaction.followup.send("An error occured!", ephemeral=True)
@@ -313,7 +314,7 @@ async def username(
     season: int = SlashOption(
             name="season", description="The season that you want to  look at (only seasons 9+ are supported)", required=False)
 ):
-    await interaction.response.defer(ephemeral=True)
+    await interaction.response.defer()
     try:
         if not season:
             season = 10
@@ -336,12 +337,11 @@ async def username(
             pass
         em = result[0]
 
-        await interaction.channel.send(embed=em)
-        await interaction.delete_original_message()
+        await interaction.followup.send(embed=em)
 
     except Exception as e:
         print(e)
-        await interaction.followup.send("An error occured! Check for any typos!", ephemeral=True)
+        await interaction.followup.send("An error occured! Check for any typos!")
 
 
 # @client.event
