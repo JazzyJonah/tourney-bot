@@ -260,7 +260,7 @@ async def bracket(
 async def user(interaction: Interaction,
     LeaderboardPosition: int = SlashOption(
             name = "leaderboard_position", description = "The position on the leaderboard the user is", required = True),
-    Season: int = SlashOption(name = "season", description = "The season that you want to look at (default 10)", required = False)):
+    Season: int = SlashOption(name = "season", description = "The season that you want to look at (default 11)", required = False)):
 
 """
 
@@ -276,13 +276,13 @@ async def leaderboard_position(
     LeaderboardPosition: int = SlashOption(
             name="leaderboard_position", description="The position on the leaderboard the user is", required=True),
     Season: int = SlashOption(
-            name="season", description="The season that you want to look at (default 10)", required=False)
+            name="season", description="The season that you want to look at (default 11)", required=False)
 ):
     LeaderboardPosition -= 1
     await interaction.response.defer()
     try:
         if not Season:
-            Season = 10
+            Season = 11
         if Season < 9:
             await interaction.followup.send("Only seasons 9+ are supported, sorry!")
             return
@@ -317,7 +317,7 @@ async def username(
     await interaction.response.defer()
     try:
         if not season:
-            season = 10
+            season = 11
 
         def find_player(season, username, page=1):
             # x = time.time()
@@ -413,7 +413,7 @@ async def leaderboard(interaction:Interaction,
     await interaction.response.defer()
     try:
         if not season:
-            season = 10
+            season = 11
         if page: # A lot easier -- update: ok maybe not
             result = [None]
             backgroundEmbed = threading.Thread(target = createLeaderboardEmbed, name = '', args = (page, season, interaction, result))
@@ -432,7 +432,7 @@ async def leaderboard(interaction:Interaction,
                 pass
             em = result[0]
 
-            totalPlayers=requests.get("https://data.ninjakiwi.com/battles2/homs/").json()["body"][10-season]["totalScores"]
+            totalPlayers=requests.get("https://data.ninjakiwi.com/battles2/homs/").json()["body"][11-season]["totalScores"]
             buttons = PageButtons(page=1, numPages = totalPlayers//10+1, totalPlayers = totalPlayers, interaction = interaction, season = season)
             await interaction.followup.send(embed = em, view = buttons)
             await buttons.wait()

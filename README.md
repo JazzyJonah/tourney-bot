@@ -21,6 +21,7 @@ Past changes:
 | v0.2.1  | Added a lot of misc. Battles 2 command pulling from the NinjaKiwi API |
 | v0.2.2  | Updated `README.md` to have a tutorial and changelog - marks beginning of well-documented era |
 | v0.2.2.1 | Updated `/info` to reflect battles 2 commands and slightly updated /user and /leaderboard to respond to the interaction at the cost of public error messages |
+| v0.2.2.2 | Updated Battles 2 related commands to default to season 11 |
 
 Future changes:
 | Version | Description |

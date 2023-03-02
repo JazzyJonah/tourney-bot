@@ -19,7 +19,7 @@ def createPlayerEmbed(player, rank, Season, interaction, result):
 			minUses = item["used"]
 			minTower = item["type"]
 
-	totalPlayers = requests.get("https://data.ninjakiwi.com/battles2/homs").json()['body'][10-Season]["totalScores"]
+	totalPlayers = requests.get("https://data.ninjakiwi.com/battles2/homs").json()['body'][11-Season]["totalScores"]
 
 	em = nextcord.Embed(title = displayName, url = player['profile']+"?pretty=true", description = f"Showing stats for #{rank+1}/{totalPlayers}: {displayName}", color = color)
 	em.set_thumbnail(avatar)
