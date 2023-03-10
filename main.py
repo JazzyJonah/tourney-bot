@@ -37,6 +37,14 @@ async def on_ready():
 @client.event
 async def on_message(message):
     pass
+    if not message.author.bot:
+        if "<:hi:975067024256552980>" in message.content:
+                await message.channel.send(message.author.mention)
+                await message.channel.send("<:hi:975067024256552980>")
+
+        if "<@920358051893104671> happy birthday" in message.content.lower():
+            ssamboHook = await client.fetch_webhook(1083586277510758501) #SSAMBOZOHOOK
+            await ssamboHook.send(f"thanks{message.content.lower().split('<@920358051893104671> happy birthday',1)[1]}", allowed_mentions=nextcord.AllowedMentions.none())
     # if "<@188217700697243648>" in message.content:
     #   if not message.author.bot:
     #       try:
@@ -304,6 +312,18 @@ async def leaderboard_position(
         print(e)
         await interaction.followup.send("An error occured!", ephemeral=True)
 
+def find_player(season, username=None, oakID=None, page=1):
+    if username:
+        # x = time.time()
+        r = requests.get(
+            f"https://data.ninjakiwi.com/battles2/homs/season_{season-1}/leaderboard?page={page}").json()
+        # print(f"request to https://data.ninjakiwi.com/battles2/homs/season_{season-1}/leaderboard?page={page} took {time.time()-x} seconds")
+        if player := next((x for x in r['body'] if x['displayName'].lower() == username.lower()), False):
+            return player, r['body'].index(player)+(page-1)*50
+        return find_player(season, username=username, page=page+1)
+    elif oakID:
+        r = requests.get(f"https://data.ninjakiwi.com/battles2/users/{oakID}").json()
+        
 
 @user.subcommand(description="The username of the player on the leaderboard")
 @cooldowns.cooldown(6, 60, bucket=cooldowns.SlashBucket.command)
@@ -319,16 +339,9 @@ async def username(
         if not season:
             season = 11
 
-        def find_player(season, username, page=1):
-            # x = time.time()
-            r = requests.get(
-                    f"https://data.ninjakiwi.com/battles2/homs/season_{season-1}/leaderboard?page={page}").json()
-            # print(f"request to https://data.ninjakiwi.com/battles2/homs/season_{season-1}/leaderboard?page={page} took {time.time()-x} seconds")
-            if player := next((x for x in r['body'] if x['displayName'].lower() == username.lower()), False):
-                return player, r['body'].index(player)+(page-1)*50
-            return find_player(season, username, page+1)
+        
 
-        player, rank = find_player(season, username)
+        player, rank = find_player(season, username=username)
         result = [None]
         backgroundEmbed = threading.Thread(target=createPlayerEmbed, name='', args=(
                 player, rank, season, interaction, result))
@@ -342,6 +355,20 @@ async def username(
     except Exception as e:
         print(e)
         await interaction.followup.send("An error occured! Check for any typos!")
+
+# @user.subcommand(description="The OAK ID of the player")
+# async def username(
+#     interaction: Interaction,
+#     id: str = SlashOption(
+#         name="oak_id", description="The OAK ID of the player", required=True),
+#     season: int = SlashOption(
+#         name="season", description="The season that you want to look at (only seasons 9+ are supported)", required=False)
+# ):
+#     await interaction.response.defer()
+#     try:
+#         if not season:
+#             season = 11
+
 
 
 # @client.event
