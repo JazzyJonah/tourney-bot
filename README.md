@@ -23,6 +23,8 @@ Past changes:
 | v0.2.2.1 | Updated `/info` to reflect battles 2 commands and slightly updated /user and /leaderboard to respond to the interaction at the cost of public error messages |
 | v0.2.2.2 | Updated Battles 2 related commands to default to season 11 |
 | v0.2.3 | Introducing: SSAMBO! B2T bot will now create a webhook and give SSAMBO's thanks whenever he's wished a happy birthday. B2T bot will now also respond to every :hi: message with his own hi. 24/7 uptime soon:tm:. This also marks the beginning of date-recording era --- 9 March 2023 |
+| v0.2.3.1 | Made it so no message will ping anyone unless specifically told to (no, nobody abused it for the short time it *did* exist) --- 9 March 2023 |
+
 
 Future changes:
 | Version | Description |

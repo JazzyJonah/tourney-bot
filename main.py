@@ -22,7 +22,7 @@ try:
 except:
     pass
 
-client = commands.Bot(command_prefix="m!", intents=nextcord.Intents.all())
+client = commands.Bot(command_prefix="m!", intents=nextcord.Intents.all(), allowed_mentions=nextcord.AllowedMentions.none())
 testingServersIDs = [627917374347149334, 921447683154145331,
         922420426175557632]  # JazzyJonah, B2T, antarctica
 
@@ -44,7 +44,7 @@ async def on_message(message):
 
         if "<@920358051893104671> happy birthday" in message.content.lower():
             ssamboHook = await client.fetch_webhook(1083586277510758501) #SSAMBOZOHOOK
-            await ssamboHook.send(f"thanks{message.content.lower().split('<@920358051893104671> happy birthday',1)[1]}", allowed_mentions=nextcord.AllowedMentions.none())
+            await ssamboHook.send(f"thanks{message.content.lower().split('<@920358051893104671> happy birthday',1)[1]}")
     # if "<@188217700697243648>" in message.content:
     #   if not message.author.bot:
     #       try:
