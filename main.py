@@ -67,7 +67,7 @@ async def info(interaction: Interaction):
             `/create_tournament` - Creates a tournament (mod only) (WIP)
             `/bracket` - Sends a bracket of some cool players (WIP)
             `/leaderboard` - shows the current Battles 2 leaderboard
-            `/user` - Shows information about a user, either by leaderboard position or by username\n
+            `/user` - Shows information about a user, either by leaderboard position, username, or OakID\n
             ||Created by JazzyJonah - Source code: https://github.com/JazzyJonah/tourney-bot||""")
 
 
@@ -264,18 +264,25 @@ async def bracket(
             pass
         await interaction.followup.send(result[0])  # , view=Winner("Heli ice"))
         os.remove("bracket.png")
-"""name = "user", description = "Sends stats about a given user",
-async def user(interaction: Interaction,
-    LeaderboardPosition: int = SlashOption(
-            name = "leaderboard_position", description = "The position on the leaderboard the user is", required = True),
-    Season: int = SlashOption(name = "season", description = "The season that you want to look at (default 11)", required = False)):
-
-"""
 
 
 @client.slash_command(guild_ids=testingServersIDs)
 async def user(interaction: Interaction):
     pass
+
+
+def find_player(season, username=None, oakID=None, page=1):
+    if username:
+        r = requests.get(f"https://data.ninjakiwi.com/battles2/homs/season_{season-1}/leaderboard?page={page}").json()
+        if player := next((x for x in r['body'] if x['displayName'].lower() == username.lower()), False):
+            profile = requests.get(player['profile']).json()['body']
+            ranks = requests.get(profile['homs']).json()['body'][11-season]
+            return profile, ranks
+        return find_player(season, username=username, page=page+1)
+    elif oakID:
+        profile = requests.get(f"https://data.ninjakiwi.com/battles2/users/{oakID}").json()['body']
+        ranks = requests.get(f"https://data.ninjakiwi.com/battles2/users/{oakID}/homs").json()['body'][11-season]
+        return profile, ranks
 
 
 @user.subcommand(description="The position on the leaderboard the user is")
@@ -299,9 +306,12 @@ async def leaderboard_position(
         r = requests.get(endpoint).json()
         player = r['body'][LeaderboardPosition % 50]
 
+        profile = requests.get(player['profile']).json()['body']
+        ranks = requests.get(profile['homs']).json()['body'][11-Season]
+
         result = [None]
         backgroundEmbed = threading.Thread(target=createPlayerEmbed, name='', args=(
-                player, LeaderboardPosition, Season, interaction, result))  # this is so it doesn't block out nextcord
+                profile, ranks, Season, interaction, result))  # this is so it doesn't block out nextcord
         backgroundEmbed.start()
         while backgroundEmbed.is_alive():  # waits until program is finished while not blocking anything
             pass
@@ -312,17 +322,7 @@ async def leaderboard_position(
         print(e)
         await interaction.followup.send("An error occured!", ephemeral=True)
 
-def find_player(season, username=None, oakID=None, page=1):
-    if username:
-        # x = time.time()
-        r = requests.get(
-            f"https://data.ninjakiwi.com/battles2/homs/season_{season-1}/leaderboard?page={page}").json()
-        # print(f"request to https://data.ninjakiwi.com/battles2/homs/season_{season-1}/leaderboard?page={page} took {time.time()-x} seconds")
-        if player := next((x for x in r['body'] if x['displayName'].lower() == username.lower()), False):
-            return player, r['body'].index(player)+(page-1)*50
-        return find_player(season, username=username, page=page+1)
-    elif oakID:
-        r = requests.get(f"https://data.ninjakiwi.com/battles2/users/{oakID}").json()
+
         
 
 @user.subcommand(description="The username of the player on the leaderboard")
@@ -341,10 +341,10 @@ async def username(
 
         
 
-        player, rank = find_player(season, username=username)
+        profile, ranks = find_player(season, username=username)
         result = [None]
         backgroundEmbed = threading.Thread(target=createPlayerEmbed, name='', args=(
-                player, rank, season, interaction, result))
+                profile, ranks, season, interaction, result))
         backgroundEmbed.start()
         while backgroundEmbed.is_alive():
             pass
@@ -356,18 +356,33 @@ async def username(
         print(e)
         await interaction.followup.send("An error occured! Check for any typos!")
 
-# @user.subcommand(description="The OAK ID of the player")
-# async def username(
-#     interaction: Interaction,
-#     id: str = SlashOption(
-#         name="oak_id", description="The OAK ID of the player", required=True),
-#     season: int = SlashOption(
-#         name="season", description="The season that you want to look at (only seasons 9+ are supported)", required=False)
-# ):
-#     await interaction.response.defer()
-#     try:
-#         if not season:
-#             season = 11
+@user.subcommand(description="The OAK ID of the player")
+async def oak_id(
+    interaction: Interaction,
+    oakID: str = SlashOption(
+        name="oak_id", description="The OAK ID of the player", required=True),
+    season: int = SlashOption(
+        name="season", description="The season that you want to look at (only seasons 9+ are supported)", required=False)
+):
+    await interaction.response.defer()
+    try:
+        if not season:
+            season = 11
+        profile, ranks = find_player(season, oakID=oakID)
+        result = [None]
+        backgroundEmbed = threading.Thread(target=createPlayerEmbed, name='', args=(
+                profile, ranks, season, interaction, result))
+        backgroundEmbed.start()
+        while backgroundEmbed.is_alive():
+            pass
+        em = result[0]
+
+        await interaction.followup.send(embed=em)
+
+    except Exception as e:
+        print(e)
+        await interaction.followup.send("An error occured! Check for any typos!") 
+
 
 
 

@@ -1,11 +1,10 @@
 import requests
 import nextcord
 from math import ceil
-def createPlayerEmbed(player, rank, Season, interaction, result):
-	displayName = player['displayName']
-	score = player['score']
+def createPlayerEmbed(profile, ranks, Season, interaction, result): # want: profile, ranks instead of player, rank
+	displayName = profile['displayName']
+	score = ranks['score']
 
-	profile = requests.get(player['profile']).json()['body']
 	avatar = profile['equippedAvatarURL']
 	wins = profile['rankedStats']['wins']
 	draws = profile['rankedStats']['draws']
@@ -19,9 +18,9 @@ def createPlayerEmbed(player, rank, Season, interaction, result):
 			minUses = item["used"]
 			minTower = item["type"]
 
-	totalPlayers = requests.get("https://data.ninjakiwi.com/battles2/homs").json()['body'][11-Season]["totalScores"]
+	totalPlayers = ranks['totalScores']
 
-	em = nextcord.Embed(title = displayName, url = player['profile']+"?pretty=true", description = f"Showing stats for #{rank+1}/{totalPlayers}: {displayName}", color = color)
+	em = nextcord.Embed(title = displayName, url = profile['matches']+"?pretty=true", description = f"Showing stats for #{ranks['rank']}/{totalPlayers}: {displayName}", color = color)
 	em.set_thumbnail(avatar)
 	# em.set_author(name=interaction.user.name)
 
