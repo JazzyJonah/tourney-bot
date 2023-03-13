@@ -1,7 +1,7 @@
 import threading
 import os
 from nextcord import Interaction, SlashOption, ChannelType
-from nextcord.abc import GuildChannel
+from nextcord.abc import GuildChannel, Snowflake
 from nextcord.ext import commands, application_checks
 import nextcord
 import datetime
@@ -12,6 +12,7 @@ import json
 import sys
 import time
 import cooldowns
+from datetime import datetime, timedelta
 
 from getPlayerMap import getPlayerMap
 from convert import convert
@@ -33,18 +34,30 @@ async def on_ready():
     await client.sync_all_application_commands()
     await client.change_presence(activity=nextcord.Game(name="Bloons TD Battles 2"))
 
+    # await client.get_channel(1029501175009116200).send("Some new *secrets* have been added! Have fun trying to find them, and definitely don't just look at the source code. --- 12 March 2023")
+
 
 @client.event
 async def on_message(message):
-    pass
     if not message.author.bot:
-        if "<:hi:975067024256552980>" in message.content:
+        if "<:hi:975067024256552980>" in message.content or "<:hi:1084659737016160286>" in message.content:
                 await message.channel.send(message.author.mention)
                 await message.channel.send("<:hi:975067024256552980>")
 
         if "<@920358051893104671> happy birthday" in message.content.lower():
             ssamboHook = await client.fetch_webhook(1083586277510758501) #SSAMBOZOHOOK
-            await ssamboHook.send(f"thanks{message.content.lower().split('<@920358051893104671> happy birthday',1)[1]}")
+            await ssamboHook.send("thanks")
+
+        if "🪞" in message.content and random()<0.01:
+            await message.author.timeout(timedelta(hours=1))
+            await message.channel.send(f"{message.author.name} won the 1/100 mirror lotto and got timed out!")
+
+        if random() < 1/10**13:
+            await message.author.add_roles(Snowflake(1077712282022334474)) # SHINY
+            await message.channel.send(f"{message.author.name} won the <@&1077712282022334474> role!")
+
+
+
     # if "<@188217700697243648>" in message.content:
     #   if not message.author.bot:
     #       try:

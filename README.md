@@ -25,6 +25,7 @@ Past changes:
 | v0.2.3 | Introducing: SSAMBO! B2T bot will now create a webhook and give SSAMBO's thanks whenever he's wished a happy birthday. B2T bot will now also respond to every :hi: message with his own hi. 24/7 uptime soon:tm:. This also marks the beginning of date-recording era --- 9 March 2023 |
 | v0.2.3.1 | Made it so no message will ping anyone unless specifically told to (no, nobody abused it for the short time it *did* exist) --- 9 March 2023 |
 | v0.2.3.2 | `/user oak_id` is now available which lets you see stats through your  `OakID`. Also, all NKAPI commands should be sizably faster. --- 11 March 2023 |
+| v0.3.2.3 | Some new *secrets* have been added! Have fun trying to find them, and definitely don't just look at the source code. --- 12 March 2023 |
 
 
 Future changes:
