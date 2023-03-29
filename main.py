@@ -40,9 +40,13 @@ async def on_ready():
 @client.event
 async def on_message(message):
     if not message.author.bot:
-        if "<:hi:975067024256552980>" in message.content or "<:hi:1084659737016160286>" in message.content:
-                await message.channel.send(message.author.mention)
-                await message.channel.send("<:hi:975067024256552980>")
+        if "<:hi:975067024256552980>" in message.content:
+            await message.channel.send(message.author.mention)
+            await message.channel.send("<:hello:1085762478866174072>")
+
+        if "<:hello:1085762478866174072>" in message.content:
+            await message.channel.send(message.author.mention)
+            await message.channel.send("<:hi:975067024256552980>")
 
         if "<@920358051893104671> happy birthday" in message.content.lower():
             ssamboHook = await client.fetch_webhook(1083586277510758501) #SSAMBOZOHOOK
@@ -306,6 +310,9 @@ async def leaderboard_position(
     Season: int = SlashOption(
             name="season", description="The season that you want to look at (default 11)", required=False)
 ):
+    if interaction.user.id == 1033226573001797712:
+        await interaction.response.send_message("Gossy I've done you enough favors", ephemeral=True)
+        return
     LeaderboardPosition -= 1
     await interaction.response.defer()
     try:
@@ -347,6 +354,9 @@ async def username(
     season: int = SlashOption(
             name="season", description="The season that you want to  look at (only seasons 9+ are supported)", required=False)
 ):
+    if interaction.user.id == 1033226573001797712:
+        await interaction.response.send_message("Gossy I've done you enough favors", ephemeral=True)
+        return
     await interaction.response.defer()
     try:
         if not season:
@@ -377,6 +387,9 @@ async def oak_id(
     season: int = SlashOption(
         name="season", description="The season that you want to look at (only seasons 9+ are supported)", required=False)
 ):
+    if interaction.user.id == 1033226573001797712:
+        await interaction.response.send_message("Gossy I've done you enough favors", ephemeral=True)
+        return
     await interaction.response.defer()
     try:
         if not season:
@@ -465,6 +478,9 @@ async def leaderboard(interaction:Interaction,
     page: int = SlashOption(name = "page", description = "The set of 10 you want to look at", required = False),
     season: int = SlashOption(name = "season", description = "The season that you want to look at (only seasons 9+ are supported)", required = False)
 ):
+    if interaction.user.id == 1033226573001797712:
+        await interaction.response.send_message("Gossy I've done you enough favors", ephemeral=True)
+        return
     await interaction.response.defer()
     try:
         if not season:

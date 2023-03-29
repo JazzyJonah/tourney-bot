@@ -20,7 +20,7 @@ def createPlayerEmbed(profile, ranks, Season, interaction, result): # want: prof
 
 	totalPlayers = ranks['totalScores']
 
-	em = nextcord.Embed(title = displayName, url = profile['matches']+"?pretty=true", description = f"Showing stats for #{ranks['rank']}/{totalPlayers}: {displayName}", color = color)
+	em = nextcord.Embed(title = displayName, url = profile['matches'][:-7]+"?pretty=true", description = f"Showing stats for #{ranks['rank']}/{totalPlayers}: {displayName}", color = color)
 	em.set_thumbnail(avatar)
 	# em.set_author(name=interaction.user.name)
 
