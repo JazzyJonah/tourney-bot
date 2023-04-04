@@ -16,16 +16,16 @@ from datetime import datetime, timedelta
 
 from getPlayerMap import getPlayerMap
 from convert import convert
-from createEmbed import createPlayerEmbed, createLeaderboardEmbed
+from createEmbed import createPlayerEmbed, createLeaderboardEmbed#  , createTimeoutEmbed
 from betterBracket import createbracket, Player
+from updateLBTxt import updateLBTxt
 try:
     from tokenSucks import tokenSucks, imgurSucks
 except:
     pass
 
 client = commands.Bot(command_prefix="m!", intents=nextcord.Intents.all(), allowed_mentions=nextcord.AllowedMentions.none())
-testingServersIDs = [627917374347149334, 921447683154145331,
-        922420426175557632]  # JazzyJonah, B2T, antarctica
+testingServersIDs = [627917374347149334, 921447683154145331, 922420426175557632]  # JazzyJonah, B2T, antarctica
 
 
 @client.event
@@ -34,8 +34,65 @@ async def on_ready():
     await client.sync_all_application_commands()
     await client.change_presence(activity=nextcord.Game(name="Bloons TD Battles 2"))
 
+    #perma button
+    if(len(client.persistent_views)==0):
+        client.add_view(TimeoutView())
+    #await client.get_channel(921456054435455133).send("Click here to get timed out!", view=TimeoutView())
     # await client.get_channel(1029501175009116200).send("Some new *secrets* have been added! Have fun trying to find them, and definitely don't just look at the source code. --- 12 March 2023")
 
+
+class TimeoutView(nextcord.ui.View):
+    def __init__(self):
+        super().__init__(timeout=None)
+
+    @nextcord.ui.button(label="Timeout", style=nextcord.ButtonStyle.red, custom_id="e")
+    async def clicked(self, button: nextcord.ui.Button, interaction: Interaction):
+        try:
+            await interaction.user.timeout(timedelta(minutes=5))
+            updateLBTxt(interaction)
+            if True: # for collapsing purposes
+                with open("buttonLB.txt") as f:
+                    data = f.readlines()
+
+                def epic_sort(item):
+                    return int(item.split(" ")[1])
+                data.sort(key=epic_sort, reverse=True)
+
+                em = nextcord.Embed(title="Timeout Leaderboard", url="https://discord.com/channels/921447683154145331/921456054435455133/1091455632915308697", color=int("F1C40F", 16))  # big red button link, shiny color
+
+                users = ""
+                timeouts = ""
+                for i in range(min(10, len(data))):
+                    userID = int(data[i].split(" ")[0])
+                    # adds the username to the users list
+                    user = await client.fetch_user(userID)
+                    users += user.display_name + "\n"
+                    # adds timeouts to timeouts list
+                    timeouts += data[i].split(" ")[1] + "\n"
+
+                em.add_field(name="Username", value=users, inline=True)
+                em.add_field(name="# Timeouts", value=timeouts, inline=True)
+
+
+                channel = client.get_channel(1091916069595271208)
+                message = await channel.fetch_message(1091916387498340373)
+            await message.edit(content = "", embed=em) 
+            
+            #channel is timeoutlb, message is the leaderboard itself. why its like this? idk.
+            # the reason i couldnt put that into a function is because of dumb await stuff
+
+            if random()<5/2**13:
+                await interaction.user.add_roles(Snowflake(1077712282022334474)) # SHINY
+                await interaction.response.send_message("YOU GOT THE SHINY ROLE", ephemeral=True)
+                await client.get_channel(921447683846180976).send(f"{interaction.user.name} clicked the big red button... AND BECAME SHINY")
+
+
+            else:
+                await interaction.response.send_message("You've been timed out. GG", ephemeral=True)
+                await client.get_channel(1029501175009116200).send(f"{interaction.user.name} clicked the big red button.")
+           
+        except:
+            await interaction.response.send_message(f"{interaction.user.name} shut up", ephemeral=True)
 
 @client.event
 async def on_message(message):
@@ -56,10 +113,16 @@ async def on_message(message):
             await message.author.timeout(timedelta(hours=1))
             await message.channel.send(f"{message.author.name} won the 1/100 mirror lotto and got timed out!")
 
-        if random() < 1/10**13:
-            await message.author.add_roles(Snowflake(1077712282022334474)) # SHINY
+        if random() < 1/2**16:
             await message.channel.send(f"{message.author.name} won the <@&1077712282022334474> role!")
+            await message.author.add_roles(Snowflake(1077712282022334474)) # SHINY
+            print(f"{message.author.id} received the shiny role. ID: {message.id} Channel: {message.channel}")
 
+        if message.author.id == 617541280154517641 and "koru" in message.content.lower(): # the id is ninjayas
+            await message.channel.send("Ayo ninjayas why are you saying koru? Everyone knows its kuro smh my head")
+
+        if "rosco sucks" in message.content.lower():
+            await message.channel.send("https://cdn.discordapp.com/attachments/921447683846180976/1090785540837756938/image.png") #rosco sucks ss
 
 
     # if "<@188217700697243648>" in message.content:
