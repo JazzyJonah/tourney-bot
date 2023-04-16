@@ -19,6 +19,7 @@ from convert import convert
 from createEmbed import createPlayerEmbed, createLeaderboardEmbed#  , createTimeoutEmbed
 from betterBracket import createbracket, Player
 from updateLBTxt import updateLBTxt
+from TimeoutView import TimeoutView
 try:
     from tokenSucks import tokenSucks, imgurSucks
 except:
@@ -36,63 +37,11 @@ async def on_ready():
 
     #perma button
     if(len(client.persistent_views)==0):
-        client.add_view(TimeoutView())
-    #await client.get_channel(921456054435455133).send("Click here to get timed out!", view=TimeoutView())
+        client.add_view(TimeoutView(client))
+    # await client.get_channel(921456054435455133).send("Click here to get timed out!", view=TimeoutView(client))
     # await client.get_channel(1029501175009116200).send("Some new *secrets* have been added! Have fun trying to find them, and definitely don't just look at the source code. --- 12 March 2023")
 
-
-class TimeoutView(nextcord.ui.View):
-    def __init__(self):
-        super().__init__(timeout=None)
-
-    @nextcord.ui.button(label="Timeout", style=nextcord.ButtonStyle.red, custom_id="e")
-    async def clicked(self, button: nextcord.ui.Button, interaction: Interaction):
-        try:
-            await interaction.user.timeout(timedelta(minutes=5))
-            updateLBTxt(interaction)
-            if True: # for collapsing purposes
-                with open("buttonLB.txt") as f:
-                    data = f.readlines()
-
-                def epic_sort(item):
-                    return int(item.split(" ")[1])
-                data.sort(key=epic_sort, reverse=True)
-
-                em = nextcord.Embed(title="Timeout Leaderboard", url="https://discord.com/channels/921447683154145331/921456054435455133/1091455632915308697", color=int("F1C40F", 16))  # big red button link, shiny color
-
-                users = ""
-                timeouts = ""
-                for i in range(min(10, len(data))):
-                    userID = int(data[i].split(" ")[0])
-                    # adds the username to the users list
-                    user = await client.fetch_user(userID)
-                    users += user.display_name + "\n"
-                    # adds timeouts to timeouts list
-                    timeouts += data[i].split(" ")[1] + "\n"
-
-                em.add_field(name="Username", value=users, inline=True)
-                em.add_field(name="# Timeouts", value=timeouts, inline=True)
-
-
-                channel = client.get_channel(1091916069595271208)
-                message = await channel.fetch_message(1091916387498340373)
-            await message.edit(content = "", embed=em) 
-            
-            #channel is timeoutlb, message is the leaderboard itself. why its like this? idk.
-            # the reason i couldnt put that into a function is because of dumb await stuff
-
-            if random()<5/2**13:
-                await interaction.user.add_roles(Snowflake(1077712282022334474)) # SHINY
-                await interaction.response.send_message("YOU GOT THE SHINY ROLE", ephemeral=True)
-                await client.get_channel(921447683846180976).send(f"{interaction.user.name} clicked the big red button... AND BECAME SHINY")
-
-
-            else:
-                await interaction.response.send_message("You've been timed out. GG", ephemeral=True)
-                await client.get_channel(1029501175009116200).send(f"{interaction.user.name} clicked the big red button.")
-           
-        except:
-            await interaction.response.send_message(f"{interaction.user.name} shut up", ephemeral=True)
+    #print(client.guilds[4].get_role(1029498546602393704).permissions)
 
 @client.event
 async def on_message(message):
@@ -365,7 +314,7 @@ def find_player(season, username=None, oakID=None, page=1):
         return profile, ranks
 
 
-@user.subcommand(description="The position on the leaderboard the user is")
+@user.subcommand(description="Gets user information based on leaderboard position")
 async def leaderboard_position(
     interaction: Interaction,
     LeaderboardPosition: int = SlashOption(
@@ -408,7 +357,7 @@ async def leaderboard_position(
 
         
 
-@user.subcommand(description="The username of the player on the leaderboard")
+@user.subcommand(description="Gets user information based on username")
 @cooldowns.cooldown(6, 60, bucket=cooldowns.SlashBucket.command)
 async def username(
     interaction: Interaction,
@@ -442,7 +391,7 @@ async def username(
         print(e)
         await interaction.followup.send("An error occured! Check for any typos!")
 
-@user.subcommand(description="The OAK ID of the player")
+@user.subcommand(description="Gets user information based on OAK ID")
 async def oak_id(
     interaction: Interaction,
     oakID: str = SlashOption(
